@@ -1,0 +1,24 @@
+version: "2"
+
+services:
+  server:
+    restart: always
+    build: ./server
+    ports:
+      - "9999:9999"
+    environment:
+      FLAG: TSGCTF{Ba5e6A_has_a_f1xp0int}
+      TCPDUMP_ENABLE: "true"
+      CTF_PORT: 9999
+    volumes:
+      - ./tcpdump/:/var/lib/tcpdump
+    logging:
+      driver: gcplogs
+  solver:
+    build: ./solver
+    read_only: true
+    command: server 9999
+    depends_on:
+      - server
+    logging:
+      driver: gcplogs

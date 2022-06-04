@@ -1,0 +1,15 @@
+version: '2'
+services:
+  app:
+    build: .
+    restart: always
+    ports:
+      - 35719:35719
+    environment:
+      TCPDUMP_ENABLE: 'true'
+      FLAG: TSGCTF{CRYPTO_IS_LOCK._KEY_IS_OPEN._CTF_IS_FUN!}
+      CTF_PORT: 35719
+    volumes:
+      - ./tcpdump/:/var/lib/tcpdump
+    logging:
+      driver: gcplogs

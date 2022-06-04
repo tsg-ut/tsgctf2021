@@ -1,0 +1,15 @@
+version: '2'
+services:
+  app:
+    build: .
+    restart: always
+    ports:
+      - 65434:65434
+    environment:
+      TCPDUMP_ENABLE: 'true'
+      FLAG: TSGCTF{HACKER_IS_YOU._POINT_IS_MOVE._POINT_ON_CURVE_IS_HACKED._YOU_IS_WIN.}
+      CTF_PORT: 65434
+    volumes:
+      - ./tcpdump/:/var/lib/tcpdump
+    logging:
+      driver: gcplogs

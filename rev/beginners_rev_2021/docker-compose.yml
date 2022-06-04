@@ -1,0 +1,19 @@
+version: "3"
+services:
+  build:
+    build: .
+    working_dir: /home/user
+    volumes:
+      - type: bind
+        source: "."
+        target: "/home/user"
+  solver:
+    build: ./solver
+    working_dir: /home/user
+    volumes:
+      - type: bind
+        source: "./solver"
+        target: "/home/user"
+      - type: bind
+        source: "./dist"
+        target: "/home/user/dist"

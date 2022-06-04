@@ -1,0 +1,18 @@
+rule cc
+  command = clang -O2 -c $in -o $out
+
+rule link
+  command = clang -O2 -lcrypto $in -o $out
+
+rule upx
+  command = upx -f --overlay=skip $in -o $out
+
+rule obfuscate
+  command = perl -p obfuscate.pl $in > $out && chmod a+x $out
+
+build encrypt.o: cc encrypt.c
+build encrypt: link encrypt.o
+build main.o: cc main.c
+build main_unstripped: link main.o
+build main_upx: upx main_unstripped
+build optimized: obfuscate main_upx

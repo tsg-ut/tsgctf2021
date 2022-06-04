@@ -1,0 +1,24 @@
+version: '2'
+services:
+  app:
+    restart: always
+    build: .
+    environment:
+      TCPDUMP_ENABLE: 'true'
+      CTF_PORT: 34705
+    volumes:
+      - ./tcpdump/:/var/lib/tcpdump
+      - ./src/supervisord.conf:/etc/supervisord.conf:ro
+    logging:
+      driver: gcplogs
+  nginx:
+    restart: always
+    image: nginx
+    volumes:
+      - ./src/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - app
+    ports:
+      - 34705:34705
+    logging:
+      driver: gcplogs

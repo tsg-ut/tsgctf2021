@@ -1,0 +1,14 @@
+version: '2'
+services:
+  app:
+    build: .
+    restart: always
+    ports:
+      - 53928:53928
+    environment:
+      TCPDUMP_ENABLE: 'true'
+      CTF_PORT: 53928
+    volumes:
+      - ./tcpdump/:/var/lib/tcpdump
+    logging:
+      driver: gcplogs

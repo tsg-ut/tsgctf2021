@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  server:
+    restart: always
+    build: ./dist
+    ports:
+      - 9060:9060
+    environment:
+      FLAG: TSGCTF{n0w_u_m@5t3r3d_rl3_enc0d1ng}
+      KLS_PROD: please
+    volumes:
+      - ./submissions/:/home/user/submissions
+    logging:
+      driver: gcplogs
+  solution:
+    depends_on:
+      - server
+    build: ./solver
+    logging:
+      driver: gcplogs

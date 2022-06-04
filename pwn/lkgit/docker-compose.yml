@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+    ctf:
+        restart: always
+        build: ./
+        read_only: true
+        networks:
+            - internal
+        logging:
+            driver: gcplogs
+    proxy:
+        restart: always
+        image: nginx
+        ports:
+            - '25252:25252'
+        volumes:
+            - ./build/nginx.conf:/etc/nginx/nginx.conf:ro
+        networks:
+            - default
+            - internal
+        depends_on:
+            - ctf
+        logging:
+            driver: gcplogs
+
+networks:
+    default:
+    internal:
+        internal: true

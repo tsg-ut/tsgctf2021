@@ -1,0 +1,52 @@
+version: '2'
+services:
+  # We cannot use `app` as a hostname because of HSTS configuration of puppeteer.
+  server:
+    restart: always
+    image: denoland/deno:alpine
+    volumes:
+      - ./dist/app:/app
+      - ./src/make-sample-posts.ts:/tmp/make-sample-posts.ts
+    working_dir: /app
+    entrypoint: ''
+    command:
+      - sh
+      - -c
+      - >
+        deno run --allow-net --unstable /tmp/make-sample-posts.ts &&
+        deno run --allow-net --allow-read --allow-env --unstable app.ts
+    environment:
+      - BASE_URL=http://server:56521/
+    depends_on:
+      - mongo
+    ports:
+      - 56521:56521
+    logging:
+      driver: gcplogs
+  mongo:
+    restart: always
+    image: mongo
+    logging:
+      driver: gcplogs
+  redis:
+    image: redis
+    restart: always
+    logging:
+      driver: gcplogs
+  worker:
+    build: ./dist/crawler/worker
+    depends_on:
+      - redis
+    restart: always
+    environment:
+      - DOMAIN=server
+      - FLAG=TSGCTF{Qiita_Mita_Katta:_To_cheat_programmer_by_copying_sample_codes_from_Qiita}
+    logging:
+      driver: gcplogs
+  reporter:
+    build: ./dist/crawler/reporter
+    depends_on:
+      - redis
+    restart: always
+    logging:
+      driver: gcplogs

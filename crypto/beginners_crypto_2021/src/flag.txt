@@ -1,0 +1,1 @@
+TSGCTF{You are intuitively understanding the distribution of prime numbers! Bonus: You can solve this challenge w/ N instead of p and q!}

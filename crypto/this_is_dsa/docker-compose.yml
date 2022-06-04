@@ -1,0 +1,15 @@
+version: '2'
+services:
+  app:
+    build: .
+    restart: always
+    ports:
+      - 61234:61234
+    environment:
+      TCPDUMP_ENABLE: 'true'
+      FLAG: TSGCTF{WOW_AMAZING_DSA_IS_TOTALLY_BROKEN}
+      CTF_PORT: 61234
+    volumes:
+      - ./tcpdump/:/var/lib/tcpdump
+    logging:
+      driver: gcplogs

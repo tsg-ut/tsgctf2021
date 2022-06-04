@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+    ctf:
+        environment:
+            FLAG: TSGCTF{eXc6ptiOn_1s_w0rk1ng_ExcePt_uNdeFineD_beh@vi0uR}
+        logging:
+            driver: gcplogs

@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+    ctf:
+        restart: always
+        build:
+            context: .
+            dockerfile: ./dist/Dockerfile
+        read_only: true
+        ports:
+            - '30003:30003'
+        logging:
+            driver: gcplogs
+

@@ -1,0 +1,7 @@
+                for (ulong i = 0; i < (1UL<<32)-2UL; ++i) {
+                    a.Clear();
+                }
+                a.Add(9);
+                a.Add(10);
+END
+

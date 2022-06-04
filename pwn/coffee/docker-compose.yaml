@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+    ctf:
+        restart: always
+        build: ./
+        read_only: true
+        ports:
+            - '30002:30002'
+        logging:
+            driver: gcplogs
+

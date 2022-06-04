@@ -1,0 +1,47 @@
+#!/bin/sh
+
+echo 'root:x:0:0:root:/root:/bin/sh' > /etc/passwd
+echo 'root:x:0:' > /etc/group
+chmod 644 /etc/passwd
+chmod 644 /etc/group
+mkdir /home
+mkdir /home/user
+adduser user --disabled-password
+
+chown -R root:root /
+mv /flag /home/user
+mv /client /home/user/client
+chmod 755 /bin/*
+chmod 700 -R /root
+chmod 777 /home/user
+chown user /home/user
+chown user /home/user/client
+chmod 400 /home/user/flag
+
+mount -t proc none /proc
+mount -t sysfs none /sys
+mount -t devtmpfs devtmpfs /dev
+mount -t tmpfs -o "noexec,nosuid,size=10%,mode=0755" tmpfs /run
+/sbin/mdev -s
+
+mkdir -p /dev/pts
+mount -vt devpts -o gid=4,mode=620 none /dev/pts
+chmod 666 /dev/ptmx
+exec 0</dev/console
+exec 1>/dev/console
+exec 2>/dev/console
+
+echo 2 > /proc/sys/kernel/kptr_restrict
+echo 1 > /proc/sys/kernel/dmesg_restrict
+
+insmod /lkgit.ko
+chmod 0666 /dev/lkgit
+echo -e "\nBoot took $(cut -d' ' -f1 /proc/uptime) seconds\n"
+
+stty -opost
+
+setsid cttyhack setuidgid user sh
+
+umount /proc
+umount /sys
+poweroff -d 0 -f
