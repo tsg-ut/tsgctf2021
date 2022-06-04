@@ -1,4 +1,4 @@
-# TSG CTF 2022
+# TSG CTF 2021
 
 ## Challenges List
 
